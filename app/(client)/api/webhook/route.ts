@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
 
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
   if (!webhookSecret) {
-    console.log("Stripe webhook secret is not set");
+    console.log("Stripe webhook secret is set");
     return NextResponse.json(
       {
         error: "Stripe webhook secret is not set",
@@ -64,6 +64,7 @@ export async function POST(req: NextRequest) {
   }
   return NextResponse.json({ received: true });
 }
+
 
 async function createOrderInSanity(
   session: Stripe.Checkout.Session,
@@ -175,3 +176,10 @@ async function updateStockLevels(
     }
   }
 }
+
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};

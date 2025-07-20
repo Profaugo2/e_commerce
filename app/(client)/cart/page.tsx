@@ -327,7 +327,7 @@ const CartPage = () => {
                   </div>
                 </div>
 
-                {/* Order Summary */}
+                {/* Order Summary web */}
                 <div className="hidden md:inline-block">
                   <Card className="bg-white">
                     <CardHeader>
@@ -384,6 +384,7 @@ const CartPage = () => {
                       >
                         {loading ? "Processing..." : "Proceed to Checkout"}
                       </Button>
+
                     </CardContent>
                   </Card>
                 </div>
@@ -445,6 +446,7 @@ const CartPage = () => {
                       >
                         {loading ? "Processing..." : "Proceed to Checkout"}
                       </Button>
+
                     </CardContent>
                   </Card>
                 </div>
