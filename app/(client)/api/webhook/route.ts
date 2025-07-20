@@ -1,13 +1,17 @@
 import stripe from "@/lib/stripe";
 import { backendClient } from "@/sanity/lib/backendClient";
 import { headers } from "next/headers";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { Metadata } from "@/actions/createCheckoutSession";
 
+export const config = {
+  runtime: "nodejs", // ✅ Ensure we get raw body support
+};
+
 // --- Webhook Handler ---
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   // 1. Get raw body for Stripe signature validation
   const body = await req.text();
   const headersList = headers();
