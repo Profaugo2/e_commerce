@@ -4,6 +4,14 @@ import { urlFor } from '@/sanity/lib/image';
 import {motion, AnimatePresence } from 'motion/react';
 import Image from 'next/image';
 import React, { useState } from 'react'
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { X } from 'lucide-react';
 
 interface Props {
   images?: Array<{
@@ -37,6 +45,7 @@ const ImageView =  ({ images = [], isStock }: Props) => {
     document.body.style.overflow = "auto";
   };
   return (
+    <>
     <div className="w-full md:w-2/5 space-y-2 md:space-y-4">
       <AnimatePresence mode="wait">
           <motion.div
@@ -84,6 +93,55 @@ const ImageView =  ({ images = [], isStock }: Props) => {
           ))}
         </div>
     </div>
+
+     {/* Modal Carousel */}
+      <AnimatePresence>
+        {showModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 bg-opacity-80 z-50 flex items-center justify-center p-4"
+            onClick={closeModal}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white rounded-lg max-w-2xl w-full p-4 relative"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                onClick={closeModal}
+                className="absolute right-4 top-4 z-10 bg-white rounded-full p-1 shadow-md hover:bg-gray-100 transition-colors"
+              >
+                <X className="h-6 w-6" />
+              </button>
+
+              <Carousel className="w-full" opts={{ startIndex: initialSlide }}>
+                <CarouselContent>
+                  {images.map((image) => (
+                    <CarouselItem key={image._key}>
+                      <div className="flex items-center justify-center h-[500px]">
+                        <Image
+                          src={urlFor(image).url()}
+                          alt={`Product image ${image._key}`}
+                          width={800}
+                          height={800}
+                          className="object-contain max-h-full"
+                        />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="-left-4" />
+                <CarouselNext className="-right-4" />
+              </Carousel>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      </>
   );
 };
 
