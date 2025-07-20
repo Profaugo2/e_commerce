@@ -98,8 +98,14 @@ async function createOrderInSanity(
   });
   const lineItems = lineItemsRes.data;
 
+  interface SanityProductRef {
+  _key: string;
+  product: { _type: "reference"; _ref: string };
+  quantity: number;
+}
+
   // Prepare product references & stock updates
-  const sanityProducts: any[] = [];
+  const sanityProducts: SanityProductRef[] = [];
   const stockUpdates: { productId: string; quantity: number }[] = [];
 
   for (const item of lineItems) {
